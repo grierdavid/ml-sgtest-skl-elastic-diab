@@ -1,0 +1,42 @@
+Name: Longer Model Name
+CanonicalName: short-name
+MLProject: training/model-code/MLProject
+Requirements: training/model-code/conda.yaml
+DependencyManagement: conda
+InferenceType: realtime
+Team:
+  - Name: Name
+    Email: EMail
+Tags:
+  Team: AI
+Development:
+  TrackingUri: http://url-for-mlflow
+  Training:
+    ResourceConfig:
+      InstanceType: ml.m4.xlarge
+      InstanceCount: 1
+    StoppingCondition:
+      MaxRuntimeInSeconds: 3000
+      MaxWaitTimeInSeconds: 3000
+    EnableManagedSpotTraining: true
+    Parameters:
+      dataset_path: file:///opt/ml/input/data/train
+      images_prefix: images
+    InputDataConfig:
+      - ChannelName: train
+        DataSource:
+          S3DataSource:
+            S3Uri: s3://s3-input
+            S3DataDistributionType: FullyReplicated
+            S3DataType: S3Prefix
+        CompressionType: None
+        InputMode: File
+    OutputDataConfig:
+      S3OutputPath: s3://s3-output
+  Inference:
+    Mode: replace
+    ResourceConfig:
+      InstanceType: ml.m4.xlarge
+      InstanceCount: 1
+    Environment:
+      GUNICORN_CMD_ARGS: --workers=1

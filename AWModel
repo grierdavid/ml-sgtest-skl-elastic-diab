@@ -1,16 +1,17 @@
-Name: Longer Model Name
-CanonicalName: short-name
+Name: Diabetes
+CanonicalName: diabetes
 MLProject: training/model-code/MLProject
 Requirements: training/model-code/conda.yaml
 DependencyManagement: conda
 InferenceType: realtime
 Team:
   - Name: Name
-    Email: EMail
+    Email: email@email.com
 Tags:
   Team: AI
+  Owner: Object Factory
 Development:
-  TrackingUri: http://url-for-mlflow
+  TrackingUri: http://18.207.233.133
   Training:
     ResourceConfig:
       InstanceType: ml.m4.xlarge
@@ -21,18 +22,18 @@ Development:
     EnableManagedSpotTraining: true
     Parameters:
       dataset_path: file:///opt/ml/input/data/train
-      images_prefix: images
+      images_prefix: image
     InputDataConfig:
       - ChannelName: train
         DataSource:
           S3DataSource:
-            S3Uri: s3://s3-input
+            S3Uri: s3://dgmftest-dev-artifacts/diabetes/dgmftest-dev-maintest-ci/
             S3DataDistributionType: FullyReplicated
             S3DataType: S3Prefix
         CompressionType: None
         InputMode: File
     OutputDataConfig:
-      S3OutputPath: s3://s3-output
+      S3OutputPath: s3://dgmftest-dev-artifacts/diabetes/dgmftest-dev-maintest-ci/
   Inference:
     Mode: replace
     ResourceConfig:
